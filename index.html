@@ -1,0 +1,2059 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academy Tracker | Player Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+:root{
+    --bg:#080b10;
+    --panel:#10151d;
+    --panel2:#151c26;
+    --border:#242d39;
+    --text:#f4f7fb;
+    --muted:#8f9baa;
+    --accent:#27e56b;
+    --accent2:#16b957;
+    --danger:#ff5364;
+    --warning:#ffc857;
+    --blue:#4da3ff;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+/* HEADER */
+
+header{
+    height:70px;
+    background:#0b0f15;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:20px;
+    font-weight:800;
+}
+
+.logo-ball{
+    width:38px;
+    height:38px;
+    background:var(--accent);
+    color:#061009;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.notification{
+    width:38px;
+    height:38px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--panel);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),#0f8c48);
+    color:#061009;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:900;
+}
+
+.profile-name{
+    font-size:14px;
+    font-weight:700;
+}
+
+/* LAYOUT */
+
+.layout{
+    display:flex;
+    min-height:calc(100vh - 70px);
+}
+
+.sidebar{
+    width:235px;
+    background:#0b0f15;
+    border-right:1px solid var(--border);
+    padding:22px 14px;
+    flex-shrink:0;
+}
+
+.nav-title{
+    color:#687381;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1px;
+    margin:10px 12px;
+}
+
+.nav-item{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#aeb7c3;
+    padding:13px 14px;
+    border-radius:10px;
+    margin-bottom:5px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:700;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    transition:.2s;
+}
+
+.nav-item:hover{
+    background:var(--panel2);
+    color:white;
+}
+
+.nav-item.active{
+    background:rgba(39,229,107,.12);
+    color:var(--accent);
+}
+
+.main{
+    flex:1;
+    padding:30px;
+    max-width:1500px;
+}
+
+/* PAGES */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-header{
+    margin-bottom:25px;
+}
+
+.page-header h1{
+    font-size:30px;
+    margin-bottom:7px;
+}
+
+.page-header p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* DASHBOARD */
+
+.welcome{
+    background:
+        radial-gradient(circle at 90% 20%,rgba(39,229,107,.16),transparent 30%),
+        linear-gradient(135deg,#111922,#0c1118);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:28px;
+    margin-bottom:20px;
+}
+
+.welcome h1{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.welcome p{
+    color:var(--muted);
+}
+
+.grid{
+    display:grid;
+    gap:16px;
+}
+
+.stats-grid{
+    grid-template-columns:repeat(4,1fr);
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:20px;
+}
+
+.stat-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.stat-icon{
+    font-size:23px;
+    margin-bottom:15px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.stat-value{
+    font-size:30px;
+    font-weight:900;
+}
+
+.content-grid{
+    grid-template-columns:1.4fr 1fr;
+    margin-top:16px;
+}
+
+.card-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.card-title h2{
+    font-size:17px;
+}
+
+.link-btn{
+    border:0;
+    background:transparent;
+    color:var(--accent);
+    cursor:pointer;
+    font-weight:700;
+}
+
+/* MATCH */
+
+.match-card{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:17px;
+    margin-bottom:12px;
+}
+
+.match-top{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:14px;
+}
+
+.match-teams{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    text-align:center;
+}
+
+.team{
+    width:35%;
+}
+
+.team-badge{
+    width:48px;
+    height:48px;
+    background:#202a35;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 7px;
+    font-size:21px;
+}
+
+.score{
+    font-size:24px;
+    font-weight:900;
+}
+
+.result{
+    display:inline-block;
+    margin-top:8px;
+    padding:4px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:800;
+}
+
+.win{
+    background:rgba(39,229,107,.13);
+    color:var(--accent);
+}
+
+.draw{
+    background:rgba(255,200,87,.13);
+    color:var(--warning);
+}
+
+.loss{
+    background:rgba(255,83,100,.13);
+    color:var(--danger);
+}
+
+/* FORM */
+
+.form{
+    display:grid;
+    gap:15px;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+label{
+    color:#b5beca;
+    font-size:12px;
+    font-weight:700;
+    display:block;
+    margin-bottom:7px;
+}
+
+input,select,textarea{
+    width:100%;
+    background:#0b1016;
+    color:white;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:12px;
+    outline:none;
+    font-size:14px;
+}
+
+input:focus,select:focus,textarea:focus{
+    border-color:var(--accent);
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+button.primary{
+    background:var(--accent);
+    color:#061009;
+    border:0;
+    padding:13px 18px;
+    border-radius:9px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+button.primary:hover{
+    background:#45ed82;
+}
+
+button.secondary{
+    background:var(--panel2);
+    color:white;
+    border:1px solid var(--border);
+    padding:12px 17px;
+    border-radius:9px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+/* TABLE */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th{
+    text-align:left;
+    color:#778291;
+    font-size:11px;
+    text-transform:uppercase;
+    padding:12px;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:15px 12px;
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+}
+
+td strong{
+    color:white;
+}
+
+.empty{
+    padding:35px;
+    text-align:center;
+    color:var(--muted);
+}
+
+/* TRAINING */
+
+.training-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--panel2);
+    padding:15px;
+    border-radius:11px;
+    margin-bottom:10px;
+}
+
+.training-left{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.check{
+    width:24px;
+    height:24px;
+    border-radius:7px;
+    border:1px solid #394451;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.check.done{
+    background:var(--accent);
+    color:#061009;
+    border-color:var(--accent);
+}
+
+.training-name{
+    font-weight:800;
+}
+
+.training-type{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+/* PROGRESS */
+
+.progress-box{
+    margin-bottom:20px;
+}
+
+.progress-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-size:13px;
+}
+
+.progress-bar{
+    width:100%;
+    height:10px;
+    background:#202731;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:var(--accent);
+    border-radius:20px;
+    transition:.5s;
+}
+
+/* ACHIEVEMENTS */
+
+.achievements{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.achievement{
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+}
+
+.achievement.locked{
+    opacity:.4;
+}
+
+.achievement-icon{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.achievement h3{
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.achievement p{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* ANNOUNCEMENTS */
+
+.announcement{
+    padding:17px;
+    background:var(--panel2);
+    border-radius:12px;
+    margin-bottom:12px;
+    border-left:3px solid var(--accent);
+}
+
+.announcement h3{
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+.announcement p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.announcement small{
+    display:block;
+    color:#66717e;
+    margin-top:9px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:300;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:600px;
+    max-height:90vh;
+    overflow-y:auto;
+    background:#10151d;
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:24px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    background:transparent;
+    border:0;
+    color:#aeb7c3;
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* MOBILE NAV */
+
+.mobile-nav{
+    display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+
+    header{
+        height:62px;
+        padding:0 15px;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        padding:18px 14px 90px;
+    }
+
+    .profile-name{
+        display:none;
+    }
+
+    .page-header h1{
+        font-size:25px;
+    }
+
+    .welcome{
+        padding:20px;
+    }
+
+    .welcome h1{
+        font-size:23px;
+    }
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .stat-value{
+        font-size:24px;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .achievements{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .mobile-nav{
+        position:fixed;
+        display:flex;
+        bottom:0;
+        left:0;
+        right:0;
+        height:68px;
+        background:#0b0f15;
+        border-top:1px solid var(--border);
+        z-index:200;
+        justify-content:space-around;
+        padding:6px;
+    }
+
+    .mobile-nav button{
+        background:transparent;
+        border:0;
+        color:#778291;
+        font-size:10px;
+        font-weight:700;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:4px;
+        cursor:pointer;
+        min-width:55px;
+    }
+
+    .mobile-nav button span{
+        font-size:19px;
+    }
+
+    .mobile-nav button.active{
+        color:var(--accent);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        <div class="logo-ball">⚽</div>
+        <span>ACADEMY TRACKER</span>
+    </div>
+
+    <div class="header-right">
+        <div class="notification" onclick="showPage('announcements')">🔔</div>
+
+        <div class="profile">
+            <div class="avatar" id="avatar">P</div>
+            <div class="profile-name" id="headerName">Player</div>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="nav-title">MAIN</div>
+
+        <button class="nav-item active" data-page="dashboard" onclick="showPage('dashboard')">
+            🏠 Dashboard
+        </button>
+
+        <button class="nav-item" data-page="matches" onclick="showPage('matches')">
+            📅 Matches
+        </button>
+
+        <button class="nav-item" data-page="stats" onclick="showPage('stats')">
+            📊 My Stats
+        </button>
+
+        <button class="nav-item" data-page="training" onclick="showPage('training')">
+            🏋️ Training
+        </button>
+
+        <button class="nav-item" data-page="progress" onclick="showPage('progress')">
+            📈 Progress
+        </button>
+
+        <button class="nav-item" data-page="achievements" onclick="showPage('achievements')">
+            🏆 Achievements
+        </button>
+
+        <div class="nav-title">ACADEMY</div>
+
+        <button class="nav-item" data-page="announcements" onclick="showPage('announcements')">
+            📢 Updates
+        </button>
+
+        <button class="nav-item" onclick="openProfile()">
+            ⚙️ Profile
+        </button>
+
+    </aside>
+
+
+    <main class="main">
+
+        <!-- DASHBOARD -->
+
+        <section class="page active" id="dashboard">
+
+            <div class="welcome">
+                <h1>Welcome back, <span id="welcomeName">Player</span> 👋</h1>
+                <p>Track your matches, training and football progress.</p>
+            </div>
+
+            <div class="grid stats-grid">
+
+                <div class="card stat-card">
+                    <div class="stat-icon">🎮</div>
+                    <div class="stat-label">Matches</div>
+                    <div class="stat-value" id="dashMatches">0</div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">⚽</div>
+                    <div class="stat-label">Goals</div>
+                    <div class="stat-value" id="dashGoals">0</div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">🅰️</div>
+                    <div class="stat-label">Assists</div>
+                    <div class="stat-value" id="dashAssists">0</div>
+                </div>
+
+                <div class="card stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-label">Minutes</div>
+                    <div class="stat-value" id="dashMinutes">0</div>
+                </div>
+
+            </div>
+
+
+            <div class="grid content-grid">
+
+                <div class="card">
+
+                    <div class="card-title">
+                        <h2>Recent Matches</h2>
+                        <button class="link-btn" onclick="showPage('matches')">View all</button>
+                    </div>
+
+                    <div id="dashboardMatches"></div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-title">
+                        <h2>Today's Training</h2>
+                        <button class="link-btn" onclick="showPage('training')">Open</button>
+                    </div>
+
+                    <div id="dashboardTraining"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MATCHES -->
+
+        <section class="page" id="matches">
+
+            <div class="page-header">
+                <h1>Match Center</h1>
+                <p>Record every match and keep your football history.</p>
+            </div>
+
+            <div class="card">
+
+                <div class="card-title">
+                    <h2>My Matches</h2>
+                    <button class="primary" onclick="openMatchModal()">+ Add Match</button>
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Opponent</th>
+                                <th>Result</th>
+                                <th>Minutes</th>
+                                <th>Goals</th>
+                                <th>Assists</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="matchTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATS -->
+
+        <section class="page" id="stats">
+
+            <div class="page-header">
+                <h1>My Stats</h1>
+                <p>Your season performance at a glance.</p>
+            </div>
+
+            <div class="grid stats-grid">
+
+                <div class="card">
+                    <div class="stat-label">Appearances</div>
+                    <div class="stat-value" id="statMatches">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Goals</div>
+                    <div class="stat-value" id="statGoals">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Assists</div>
+                    <div class="stat-value" id="statAssists">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Minutes</div>
+                    <div class="stat-value" id="statMinutes">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Wins</div>
+                    <div class="stat-value" id="statWins">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Draws</div>
+                    <div class="stat-value" id="statDraws">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Losses</div>
+                    <div class="stat-value" id="statLosses">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-label">Average Rating</div>
+                    <div class="stat-value" id="statRating">0.0</div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TRAINING -->
+
+        <section class="page" id="training">
+
+            <div class="page-header">
+                <h1>Training</h1>
+                <p>Complete your daily training and build consistency.</p>
+            </div>
+
+            <div class="card">
+
+                <div class="card-title">
+                    <h2>Today's Training</h2>
+                    <span id="trainingDate"></span>
+                </div>
+
+                <div id="trainingList"></div>
+
+                <button class="primary" onclick="resetTraining()">Reset Today's Training</button>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+
+        <section class="page" id="progress">
+
+            <div class="page-header">
+                <h1>My Progress</h1>
+                <p>See how your football performance is developing.</p>
+            </div>
+
+            <div class="card">
+
+                <div class="progress-box">
+                    <div class="progress-label">
+                        <span>Matches Target</span>
+                        <strong id="matchesProgressText">0 / 20</strong>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="matchesProgress"></div>
+                    </div>
+                </div>
+
+
+                <div class="progress-box">
+                    <div class="progress-label">
+                        <span>Goals Target</span>
+                        <strong id="goalsProgressText">0 / 10</strong>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="goalsProgress"></div>
+                    </div>
+                </div>
+
+
+                <div class="progress-box">
+                    <div class="progress-label">
+                        <span>Assists Target</span>
+                        <strong id="assistsProgressText">0 / 10</strong>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="assistsProgress"></div>
+                    </div>
+                </div>
+
+
+                <div class="progress-box">
+                    <div class="progress-label">
+                        <span>Training Consistency</span>
+                        <strong id="trainingProgressText">0%</strong>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="trainingProgress"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACHIEVEMENTS -->
+
+        <section class="page" id="achievements">
+
+            <div class="page-header">
+                <h1>Achievements</h1>
+                <p>Milestones you unlock throughout your football journey.</p>
+            </div>
+
+            <div class="achievements" id="achievementList"></div>
+
+        </section>
+
+
+        <!-- ANNOUNCEMENTS -->
+
+        <section class="page" id="announcements">
+
+            <div class="page-header">
+                <h1>Academy Updates</h1>
+                <p>Important announcements and upcoming events.</p>
+            </div>
+
+            <div class="card">
+
+                <div class="announcement">
+                    <h3>⚽ Welcome to Academy Tracker</h3>
+                    <p>Start recording your matches and training sessions to build your football profile.</p>
+                    <small>Academy System • Today</small>
+                </div>
+
+                <div class="announcement">
+                    <h3>📅 Match Updates</h3>
+                    <p>Remember to update your match performance after every game.</p>
+                    <small>Coach Team • This week</small>
+                </div>
+
+                <div class="announcement">
+                    <h3>🏋️ Training Reminder</h3>
+                    <p>Keep your training streak alive by completing today's session.</p>
+                    <small>Academy Team • This week</small>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-nav">
+
+    <button class="active" data-page="dashboard" onclick="showPage('dashboard')">
+        <span>🏠</span>
+        Home
+    </button>
+
+    <button data-page="matches" onclick="showPage('matches')">
+        <span>📅</span>
+        Matches
+    </button>
+
+    <button data-page="stats" onclick="showPage('stats')">
+        <span>📊</span>
+        Stats
+    </button>
+
+    <button data-page="training" onclick="showPage('training')">
+        <span>🏋️</span>
+        Training
+    </button>
+
+    <button data-page="progress" onclick="showPage('progress')">
+        <span>📈</span>
+        Progress
+    </button>
+
+</nav>
+
+
+<!-- MATCH MODAL -->
+
+<div class="modal" id="matchModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2>Add Match</h2>
+            <button class="close" onclick="closeMatchModal()">×</button>
+        </div>
+
+        <form class="form" id="matchForm">
+
+            <div class="form-row">
+
+                <div>
+                    <label>Match Date</label>
+                    <input type="date" id="matchDate" required>
+                </div>
+
+                <div>
+                    <label>Opponent</label>
+                    <input type="text" id="opponent" placeholder="e.g. City Academy" required>
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div>
+                    <label>Your Team Score</label>
+                    <input type="number" id="teamScore" min="0" value="0" required>
+                </div>
+
+                <div>
+                    <label>Opponent Score</label>
+                    <input type="number" id="opponentScore" min="0" value="0" required>
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div>
+                    <label>Minutes Played</label>
+                    <input type="number" id="minutes" min="0" max="150" value="90" required>
+                </div>
+
+                <div>
+                    <label>Goals</label>
+                    <input type="number" id="goals" min="0" value="0" required>
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div>
+                    <label>Assists</label>
+                    <input type="number" id="assists" min="0" value="0" required>
+                </div>
+
+                <div>
+                    <label>Match Rating</label>
+                    <input type="number" id="rating" min="0" max="10" step="0.1" value="7.0" required>
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <label>Position</label>
+
+                <select id="position">
+
+                    <option>Goalkeeper</option>
+                    <option>Centre Back</option>
+                    <option>Full Back</option>
+                    <option>Defensive Midfielder</option>
+                    <option>Central Midfielder</option>
+                    <option>Attacking Midfielder</option>
+                    <option>Winger</option>
+                    <option>Striker</option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>Coach Notes</label>
+
+                <textarea id="notes" placeholder="What did you learn from this match?"></textarea>
+
+            </div>
+
+
+            <button class="primary" type="submit">
+                Save Match
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- PROFILE MODAL -->
+
+<div class="modal" id="profileModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2>Player Profile</h2>
+            <button class="close" onclick="closeProfile()">×</button>
+        </div>
+
+        <form class="form" id="profileForm">
+
+            <div>
+                <label>Player Name</label>
+                <input type="text" id="playerNameInput" required>
+            </div>
+
+            <div class="form-row">
+
+                <div>
+                    <label>Position</label>
+
+                    <select id="playerPosition">
+
+                        <option>Goalkeeper</option>
+                        <option>Centre Back</option>
+                        <option>Full Back</option>
+                        <option>Defensive Midfielder</option>
+                        <option>Central Midfielder</option>
+                        <option>Attacking Midfielder</option>
+                        <option>Winger</option>
+                        <option>Striker</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+                    <label>Squad Number</label>
+                    <input type="number" id="playerNumber" min="1" max="99">
+                </div>
+
+            </div>
+
+            <button class="primary" type="submit">Save Profile</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ============================
+   DATA
+============================ */
+
+let player = JSON.parse(localStorage.getItem("academyPlayer")) || {
+    name:"Player",
+    position:"Winger",
+    number:7
+};
+
+let matches = JSON.parse(localStorage.getItem("academyMatches")) || [];
+
+let training = JSON.parse(localStorage.getItem("academyTraining")) || {};
+
+let trainingItems = [
+    {name:"Ball Control",type:"Technical"},
+    {name:"Passing",type:"Technical"},
+    {name:"Shooting",type:"Technical"},
+    {name:"Dribbling",type:"Technical"},
+    {name:"Speed & Agility",type:"Physical"},
+    {name:"Strength",type:"Physical"},
+    {name:"Fitness",type:"Physical"},
+    {name:"Recovery",type:"Recovery"}
+];
+
+
+/* ============================
+   NAVIGATION
+============================ */
+
+function showPage(page){
+
+    document.querySelectorAll(".page").forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    const target=document.getElementById(page);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+    document.querySelectorAll(".nav-item,.mobile-nav button").forEach(btn=>{
+        btn.classList.remove("active");
+
+        if(btn.dataset.page===page){
+            btn.classList.add("active");
+        }
+    });
+
+    updateAll();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* ============================
+   PROFILE
+============================ */
+
+function updateProfile(){
+
+    const name=player.name || "Player";
+
+    document.getElementById("headerName").textContent=name;
+    document.getElementById("welcomeName").textContent=name;
+
+    document.getElementById("avatar").textContent=
+        name.charAt(0).toUpperCase();
+}
+
+
+function openProfile(){
+
+    document.getElementById("playerNameInput").value=player.name;
+    document.getElementById("playerPosition").value=player.position;
+    document.getElementById("playerNumber").value=player.number;
+
+    document.getElementById("profileModal").classList.add("show");
+}
+
+
+function closeProfile(){
+
+    document.getElementById("profileModal").classList.remove("show");
+}
+
+
+document.getElementById("profileForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    player.name=document.getElementById("playerNameInput").value.trim() || "Player";
+
+    player.position=document.getElementById("playerPosition").value;
+
+    player.number=Number(document.getElementById("playerNumber").value) || 7;
+
+    localStorage.setItem("academyPlayer",JSON.stringify(player));
+
+    updateProfile();
+
+    closeProfile();
+
+});
+
+
+/* ============================
+   MATCH MODAL
+============================ */
+
+function openMatchModal(){
+
+    document.getElementById("matchDate").value=
+        new Date().toISOString().split("T")[0];
+
+    document.getElementById("matchModal").classList.add("show");
+}
+
+
+function closeMatchModal(){
+
+    document.getElementById("matchModal").classList.remove("show");
+}
+
+
+document.getElementById("matchForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const teamScore=Number(document.getElementById("teamScore").value);
+    const opponentScore=Number(document.getElementById("opponentScore").value);
+
+    let result="D";
+
+    if(teamScore>opponentScore){
+        result="W";
+    }
+
+    if(teamScore<opponentScore){
+        result="L";
+    }
+
+    const match={
+
+        id:Date.now(),
+
+        date:document.getElementById("matchDate").value,
+
+        opponent:document.getElementById("opponent").value,
+
+        teamScore:teamScore,
+
+        opponentScore:opponentScore,
+
+        result:result,
+
+        minutes:Number(document.getElementById("minutes").value),
+
+        goals:Number(document.getElementById("goals").value),
+
+        assists:Number(document.getElementById("assists").value),
+
+        rating:Number(document.getElementById("rating").value),
+
+        position:document.getElementById("position").value,
+
+        notes:document.getElementById("notes").value
+
+    };
+
+    matches.unshift(match);
+
+    localStorage.setItem("academyMatches",JSON.stringify(matches));
+
+    document.getElementById("matchForm").reset();
+
+    closeMatchModal();
+
+    updateAll();
+
+    showPage("matches");
+
+});
+
+
+/* ============================
+   MATCH DISPLAY
+============================ */
+
+function resultClass(result){
+
+    if(result==="W") return "win";
+    if(result==="L") return "loss";
+
+    return "draw";
+}
+
+
+function resultText(result){
+
+    if(result==="W") return "WIN";
+    if(result==="L") return "LOSS";
+
+    return "DRAW";
+}
+
+
+function renderMatches(){
+
+    const table=document.getElementById("matchTable");
+
+    if(matches.length===0){
+
+        table.innerHTML=`
+            <tr>
+                <td colspan="7" class="empty">
+                    No matches recorded yet.<br><br>
+                    Click <strong>+ Add Match</strong> to record your first game.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    table.innerHTML=matches.map(m=>`
+
+        <tr>
+
+            <td>${formatDate(m.date)}</td>
+
+            <td><strong>${escapeHTML(m.opponent)}</strong></td>
+
+            <td>
+                <span class="result ${resultClass(m.result)}">
+                    ${resultText(m.result)}
+                </span>
+                &nbsp; ${m.teamScore}-${m.opponentScore}
+            </td>
+
+            <td>${m.minutes}'</td>
+
+            <td>⚽ ${m.goals}</td>
+
+            <td>🅰️ ${m.assists}</td>
+
+            <td><strong>${m.rating.toFixed(1)}</strong></td>
+
+        </tr>
+
+    `).join("");
+
+}
+
+
+function renderDashboardMatches(){
+
+    const box=document.getElementById("dashboardMatches");
+
+    if(matches.length===0){
+
+        box.innerHTML=`
+            <div class="empty">
+                No matches yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    box.innerHTML=matches.slice(0,3).map(m=>`
+
+        <div class="match-card">
+
+            <div class="match-top">
+                <span>${formatDate(m.date)}</span>
+
+                <span class="result ${resultClass(m.result)}">
+                    ${resultText(m.result)}
+                </span>
+            </div>
+
+            <div class="match-teams">
+
+                <div class="team">
+                    <div class="team-badge">🛡️</div>
+                    <strong>MY TEAM</strong>
+                </div>
+
+                <div class="score">
+                    ${m.teamScore} - ${m.opponentScore}
+                </div>
+
+                <div class="team">
+                    <div class="team-badge">⚽</div>
+                    <strong>${escapeHTML(m.opponent)}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* ============================
+   STATS
+============================ */
+
+function calculateStats(){
+
+    let totalMatches=matches.length;
+
+    let goals=matches.reduce((sum,m)=>sum+m.goals,0);
+
+    let assists=matches.reduce((sum,m)=>sum+m.assists,0);
+
+    let minutes=matches.reduce((sum,m)=>sum+m.minutes,0);
+
+    let wins=matches.filter(m=>m.result==="W").length;
+
+    let draws=matches.filter(m=>m.result==="D").length;
+
+    let losses=matches.filter(m=>m.result==="L").length;
+
+    let rating=0;
+
+    if(matches.length){
+
+        rating=
+            matches.reduce((sum,m)=>sum+m.rating,0)
+            /matches.length;
+
+    }
+
+    return {
+        totalMatches,
+        goals,
+        assists,
+        minutes,
+        wins,
+        draws,
+        losses,
+        rating
+    };
+
+}
+
+
+function renderStats(){
+
+    const s=calculateStats();
+
+    document.getElementById("dashMatches").textContent=s.totalMatches;
+    document.getElementById("dashGoals").textContent=s.goals;
+    document.getElementById("dashAssists").textContent=s.assists;
+    document.getElementById("dashMinutes").textContent=s.minutes;
+
+    document.getElementById("statMatches").textContent=s.totalMatches;
+    document.getElementById("statGoals").textContent=s.goals;
+    document.getElementById("statAssists").textContent=s.assists;
+    document.getElementById("statMinutes").textContent=s.minutes;
+    document.getElementById("statWins").textContent=s.wins;
+    document.getElementById("statDraws").textContent=s.draws;
+    document.getElementById("statLosses").textContent=s.losses;
+    document.getElementById("statRating").textContent=s.rating.toFixed(1);
+
+}
+
+
+/* ============================
+   TRAINING
+============================ */
+
+function getTodayKey(){
+
+    return new Date().toISOString().split("T")[0];
+
+}
+
+
+function renderTraining(){
+
+    const today=getTodayKey();
+
+    if(!training[today]){
+        training[today]={};
+    }
+
+    const list=document.getElementById("trainingList");
+
+    list.innerHTML=trainingItems.map((item,index)=>{
+
+        const done=training[today][index]===true;
+
+        return `
+
+            <div class="training-item">
+
+                <div class="training-left">
+
+                    <div
+                        class="check ${done?"done":""}"
+                        onclick="toggleTraining(${index})"
+                    >
+                        ${done?"✓":""}
+                    </div>
+
+                    <div>
+
+                        <div class="training-name">
+                            ${item.name}
+                        </div>
+
+                        <div class="training-type">
+                            ${item.type}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <span>${done?"Completed":"Pending"}</span>
+
+            </div>
+
+        `;
+
+    }).join("");
+
+    document.getElementById("trainingDate").textContent=
+        formatDate(today);
+
+    renderDashboardTraining();
+
+}
+
+
+function renderDashboardTraining(){
+
+    const today=getTodayKey();
+
+    const todayData=training[today] || {};
+
+    const completed=
+        trainingItems.filter((_,i)=>todayData[i]===true).length;
+
+    document.getElementById("dashboardTraining").innerHTML=`
+
+        <div class="progress-box">
+
+            <div class="progress-label">
+
+                <span>Today's session</span>
+
+                <strong>${completed}/${trainingItems.length}</strong>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width:${(completed/trainingItems.length)*100}%"
+                ></div>
+
+            </div>
+
+        </div>
+
+        <p style="color:var(--muted);font-size:13px">
+            ${completed===trainingItems.length
+                ?"🔥 Training complete! Great work."
+                :"Keep going. Complete today's session."
+            }
+        </p>
+
+    `;
+
+}
+
+
+function toggleTraining(index){
+
+    const today=getTodayKey();
+
+    if(!training[today]){
+        training[today]={};
+    }
+
+    training[today][index]=!training[today][index];
+
+    localStorage.setItem("academyTraining",JSON.stringify(training));
+
+    updateAll();
+
+}
+
+
+function resetTraining(){
+
+    const today=getTodayKey();
+
+    training[today]={};
+
+    localStorage.setItem("academyTraining",JSON.stringify(training));
+
+    updateAll();
+
+}
+
+
+/* ============================
+   PROGRESS
+============================ */
+
+function renderProgress(){
+
+    const s=calculateStats();
+
+    setProgress(
+        "matchesProgress",
+        "matchesProgressText",
+        s.totalMatches,
+        20
+    );
+
+    setProgress(
+        "goalsProgress",
+        "goalsProgressText",
+        s.goals,
+        10
+    );
+
+    setProgress(
+        "assistsProgress",
+        "assistsProgressText",
+        s.assists,
+        10
+    );
+
+    let totalDays=Object.keys(training).length;
+
+    let completedDays=Object.values(training).filter(day=>{
+
+        return trainingItems.every((_,i)=>day[i]===true);
+
+    }).length;
+
+    let consistency=
+        totalDays===0
+        ?0
+        :Math.round((completedDays/totalDays)*100);
+
+    document.getElementById("trainingProgress").style.width=
+        Math.min(consistency,100)+"%";
+
+    document.getElementById("trainingProgressText").textContent=
+        consistency+"%";
+
+}
+
+
+function setProgress(barId,textId,value,target){
+
+    const percent=Math.min((value/target)*100,100);
+
+    document.getElementById(barId).style.width=percent+"%";
+
+    document.getElementById(textId).textContent=
+        value+" / "+target;
+
+}
+
+
+/* ============================
+   ACHIEVEMENTS
+============================ */
+
+function renderAchievements(){
+
+    const s=calculateStats();
+
+    const achievements=[
+
+        {
+            icon:"👟",
+            title:"First Match",
+            description:"Play your first recorded match.",
+            unlocked:s.totalMatches>=1
+        },
+
+        {
+            icon:"⚽",
+            title:"First Goal",
+            description:"Score your first goal.",
+            unlocked:s.goals>=1
+        },
+
+        {
+            icon:"🅰️",
+            title:"First Assist",
+            description:"Record your first assist.",
+            unlocked:s.assists>=1
+        },
+
+        {
+            icon:"🎮",
+            title:"10 Matches",
+            description:"Reach 10 appearances.",
+            unlocked:s.totalMatches>=10
+        },
+
+        {
+            icon:"🔥",
+            title:"10 Goals",
+            description:"Score 10 goals.",
+            unlocked:s.goals>=10
+        },
+
+        {
+            icon:"🏆",
+            title:"5 Wins",
+            description:"Win five matches.",
+            unlocked:s.wins>=5
+        },
+
+        {
+            icon:"💯",
+            title:"100 Minutes",
+            description:"Play 100 minutes.",
+            unlocked:s.minutes>=100
+        },
+
+        {
+            icon:"⭐",
+            title:"8+ Rating",
+            description:"Record an average rating of 8.0+.",
+            unlocked:s.rating>=8 && s.totalMatches>0
+        },
+
+        {
+            icon:"🏋️",
+            title:"Training Day",
+            description:"Complete an entire training session.",
+            unlocked:Object.values(training).some(day=>
+                trainingItems.every((_,i)=>day[i]===true)
+            )
+        }
+
+    ];
+
+    document.getElementById("achievementList").innerHTML=
+        achievements.map(a=>`
+
+            <div class="achievement ${a.unlocked?"":"locked"}">
+
+                <div class="achievement-icon">
+                    ${a.icon}
+                </div>
+
+                <h3>
+                    ${a.unlocked?"✓ ":""}${a.title}
+                </h3>
+
+                <p>${a.description}</p>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+/* ============================
+   HELPERS
+============================ */
+
+function formatDate(date){
+
+    if(!date) return "";
+
+    const d=new Date(date+"T00:00:00");
+
+    return d.toLocaleDateString(
+        undefined,
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+function escapeHTML(text){
+
+    return String(text)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* ============================
+   UPDATE EVERYTHING
+============================ */
+
+function updateAll(){
+
+    updateProfile();
+
+    renderMatches();
+
+    renderDashboardMatches();
+
+    renderStats();
+
+    renderTraining();
+
+    renderProgress();
+
+    renderAchievements();
+
+}
+
+
+/* ============================
+   START
+============================ */
+
+updateAll();
+
+</script>
+
+</body>
+</html>
+```
