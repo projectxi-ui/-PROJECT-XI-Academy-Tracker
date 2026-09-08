@@ -6,19 +6,25 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-:root {
-    --bg: #080b10;
-    --panel: #10151d;
-    --panel2: #151c26;
-    --border: #242d39;
-    --text: #f4f7fb;
-    --muted: #8f9baa;
-    --accent: #27e56b;
-    --accent2: #16b957;
-    --danger: #ff5364;
-    --warning: #ffc857;
-    --blue: #4da3ff;
+```css
+:root{
+  --bg:#070707;
+  --panel:#111111;
+  --panel2:#191919;
+  --border:#302020;
+
+  --text:#f5f5f5;
+  --muted:#9d9191;
+
+  --accent:#8b1e3f;
+  --accent2:#65152e;
+
+  --danger:#e34b5f;
+  --warning:#d8a33e;
+  --blue:#4d8fd8;
 }
+```
+
 
 body {
     background: var(--bg);
