@@ -6,22 +6,7 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-:root{
-  --bg:#070707;
-  --panel:#111111;
-  --panel2:#191919;
-  --border:#302020;
-
-  --text:#f5f5f5;
-  --muted:#9d9191;
-
-  --accent:#8b1e3f;
-  --accent2:#65152e;
-
-  --danger:#e34b5f;
-  --warning:#d8a33e;
-  --blue:#4d8fd8;
-}
+:root{ --bg:#070707; --panel:#111111; --panel2:#191919; --border:#302020; --text:#f5f5f5; --muted:#9d9191; --accent:#8b1e3f; --accent2:#65152e; --danger:#e34b5f; --warning:#d8a33e; --blue:#4d8fd8; }
 
 
 
